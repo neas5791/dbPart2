@@ -29,6 +29,12 @@
 				</div>
 			</div>
 			<div id="footer"></div>
+			<div id="login">
+				<label id="label">Username
+				<input type="text" name="username" id="username"></label>
+				<label id="label">Password
+				<input type="password" name="password" id="password"></label>
+			</div>
 		</div>
 	</body>
 </html>
