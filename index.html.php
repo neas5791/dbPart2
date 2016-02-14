@@ -30,10 +30,20 @@
 			</div>
 			<div id="footer"></div>
 			<div id="login">
-				<label id="label">Username
-				<input type="text" name="username" id="username"></label>
-				<label id="label">Password
-				<input type="password" name="password" id="password"></label>
+			<a href="form.html"><p id="open">Login</p></a>
+			<form>
+				<p>
+					<label for="username">Username:</label>
+					<input type="text" name="username" id="username">
+				</p>
+				<p>
+					<label for="password">Password: </label>
+					<input type="text" name="password" id="password">
+				</p>
+				<p class="button">
+					<input type="submit" name="button" id="button" value="Submit" >
+				</p>
+			</form>
 			</div>
 		</div>
 	</body>

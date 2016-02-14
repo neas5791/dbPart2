@@ -1,5 +1,6 @@
 $('document').ready(
 	function() {
+		//$('#login').hide();
 		// Add smartmenu to navigation bar
 		$('.sm').smartmenus({
 		    showFunction: function($ul, complete) {
@@ -27,16 +28,16 @@ $('document').ready(
 				//						 }); // end each
 				//					 }
 				//					); // end getJSON anonymous function
-				$.getJSON( url,
-									 action,
-									 table_data
+				$.getJSON( 	url,
+										action,
+										part_table_data
 									);
 				return false;
 			}); // end click
 		// construct table using JSON data returned from server
-		var table_data =
+		var part_table_data =
 			function (data) {
-				table_header(data);
+				part_table_header(data);
 				// remove contents of table body
 				$('tbody').empty();
 				// add new data contents to table
@@ -54,9 +55,10 @@ $('document').ready(
 					} // end anonymous function
 				); // end each
 				table_format();
+				part_image_click();
 		};// end table_data
 		// construct table header (columns) based on name of JSON keys
-		var table_header =
+		var part_table_header =
 			function (data) {
 				var keys =[];
 				var obj = data[0];
@@ -88,7 +90,10 @@ $('document').ready(
 						$(this).removeClass("zebrahover");
 					} // end function mouse out
 				); // end hover
-				
+		}
+		// add image to table click content
+		var part_image_click =
+			function () {
 				$('.img-click').click(
 					function (event) {
 						var $tr_parent = $(this).parent('tr');
@@ -104,8 +109,8 @@ $('document').ready(
 						//don't let event go up page
 						event.stopPropagation();
 					}
-				); // end click
-      }
+				); // end click            
+            }
 		// display image in floating div (foreground)
 		var displayImage =
 			function () {
@@ -131,5 +136,18 @@ $('document').ready(
 					}	
 			}
 		);
+		$('#open').click(
+			function (event) {
+        event.preventDefault();
+				if ($('#login form').is(':hidden')) {
+          $('#login form').slideDown(300);
+					$(this).toggleClass('close');
+        }
+				else {
+					$('#login form').slideUp(300);
+					$('# login form').toggleClass('open');
+				}
+      }
+		)
 	}
 ); // end ready

@@ -47,3 +47,61 @@ td, th {
 	max-height: 800px;
 	border: 10px solid black;
 }
+
+/*  Login form     */
+#login {
+	width: 300px;
+	position: absolute;
+	right: 9px;
+	top: 9px;
+	z-index: 100;
+	/*background-color: rgb(27,45,94);*/
+	background-color: rgb(221,221,221);
+	border-radius: 0 0 5px 5px;
+}
+
+#login a {
+	text-decoration: none;
+}
+
+#open {
+	margin: 0;
+	cursor: pointer;
+	background-image:  url(../_images/open.png);
+	background-repeat: no-repeat;
+	background-position:  8px 7px;
+	color: black;
+	padding: 5px 0 5px 30px;
+	border-radius: 0 0 5px 5px;
+}
+
+#login .close {
+	background-image: url(../_images/close.png);
+}
+
+#open:hover {
+	color: rgb(0,0,0);
+	background-color: rgb(200,200,200);	
+}
+
+#login form {
+	padding: 10px 10px 0 10px;
+	display: none;	
+}
+#login label {
+	font-size: .75em;
+	color: black;
+	font-weight: bold;
+	width: 100px;
+	text-align:right;
+	margin: 0 15px 0 0;
+	display: inline-block;
+}
+#login input[type="text"] {
+	font-size: 14px;
+	width: 140px;	
+}
+#login .button {
+	text-align: right;	
+	padding-right: 15px;
+}
