@@ -97,7 +97,7 @@ td, th {
 	margin: 0 15px 0 0;
 	display: inline-block;
 }
-#login input[type="text"] {
+#login input[type="text"], #login input[type="password"] {
 	font-size: 14px;
 	width: 140px;	
 }

@@ -38,7 +38,7 @@
 				</p>
 				<p>
 					<label for="password">Password: </label>
-					<input type="text" name="password" id="password">
+					<input type="password" name="password" id="password">
 				</p>
 				<p class="button">
 					<input type="submit" name="button" id="button" value="Submit" >

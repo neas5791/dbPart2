@@ -149,5 +149,6 @@ $('document').ready(
 				}
       }
 		)
+		
 	}
 ); // end ready
