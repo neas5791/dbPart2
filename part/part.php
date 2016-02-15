@@ -6,9 +6,9 @@
 	session_start();
 	include $_SERVER['DOCUMENT_ROOT'].'/include/log.inc.php';
 	
-	if(!isset($_SESSION['login_user'])){
-		header('Location: /');
-	}
+	//if(isset($_SESSION['login_user'])){
+	//	header('Location: /');
+	//}
 	
 	include $_SERVER['DOCUMENT_ROOT'].'/include/connect.inc.php';
 

@@ -131,21 +131,21 @@ $('document').ready(
 		$('html').on('click',
 			function(event) {
 				var $overlay = $('#overlay');
-					if (event.target == $overlay.get(0)) {
-						$overlay.remove();
-					}	
-			}
-		);
+				if (event.target == $overlay.get(0)) {
+					$overlay.remove();
+				}	
+			});
+		
 		$('#open').click(
 			function (event) {
         event.preventDefault();
 				if ($('#login form').is(':hidden')) {
           $('#login form').slideDown(300);
-					$(this).toggleClass('close');
+					$(this).addClass('close');
         }
 				else {
 					$('#login form').slideUp(300);
-					$('# login form').toggleClass('open');
+					$(this).removeClass('close');
 				}
       }
 		)
