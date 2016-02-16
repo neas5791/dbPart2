@@ -72,13 +72,16 @@ CREATE TABLE tbCatergory (
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB;
 
 CREATE TABLE tbUser (
-    username    VARCHAR(255) NOT NULL,
+    username    VARCHAR(255) NOT NULL PRIMARY KEY,
     password    CHAR(32) NOT NULL,
-    email       varchar(255),
-    PRIMARY KEY (username, password)
+		fname				VARCHAR(50) NOT NULL,
+		lname				VARCHAR(50) NOT NULL,
+		secret_q		VARHCAR(255),
+		secret_a		VARCHAR(255),
+    email       varchar(255)
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB;
 
-INSERT INTO tbUser VALUES ('neas', md5(CONCAT('password', 'mickey mouse')), 'neas@transcrete.com');
+INSERT INTO tbUser (username, password, fname, lname, email) VALUES ('neas', md5(CONCAT('password', 'mickey mouse')),'Sean', "Matkovich', 'neas@transcrete.com');
 
 -- #Fill Table with DATA
 INSERT into tbType (type, descr) VALUES ('RAW', 'Raw material');
