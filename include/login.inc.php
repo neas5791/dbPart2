@@ -10,8 +10,8 @@
         if (empty($_POST['username']) || empty($_POST['password'])) {
             $login_error = "Username or Password is invalid";
             append_log($login_error);
-            //header('Content-Type: application/json');
-            echo json_encode( [ 'success' => 'false', 'error' => $login_error] );
+            header('Content-Type: application/json');
+            echo json_encode( array( 'success' => 'false', 'error' => $login_error) );
         }
         else {
             // Define $username and $password
@@ -40,15 +40,18 @@
                 if ( $res[0] == 1 ) {
                     $_SESSION['login_user'] = $username; // Initialize Session
                     append_log($username.' logged in successfully');
-                    echo json_encode( [ 'success' => 'true', 'error' => ''] );
+                    header('Content-Type: application/json');
+                    echo json_encode( array( 'success' => 'true', 'error' => '') );
                 }
                 else {
                     $login_error = "Username or Password is invalid";
-                    echo json_encode( [ 'success' => 'false', 'error' => $login_error] );
+                    header('Content-Type: application/json');
+                    echo json_encode( array ('success' => 'false', 'error' => $login_error) );
                 }
             }
             catch (PDOException $e) {
-                echo json_encode( [ 'success' => 'false', 'error' => $e->getMessage()] );
+              header('Content-Type: application/json');
+              echo json_encode( array( 'success' => 'false', 'error' => $e->getMessage()) );
             }
         }
     }

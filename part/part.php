@@ -1,14 +1,20 @@
 <?php
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+	//ini_set('display_errors', 1);
+	//ini_set('display_startup_errors', 1);
+	//error_reporting(E_ALL);
 	
 	session_start();
 	include $_SERVER['DOCUMENT_ROOT'].'/include/log.inc.php';
 	
-	//if(isset($_SESSION['login_user'])){
-	//	header('Location: /');
-	//}
+	if( isset( $_GET['action'] ) && $_GET['action']=='logout' ) {
+		session_destroy();
+		//echo json_encode(array('location'=>'home'));
+	}
+		
+	//print_r( $_SESSION );
+	if(!isset($_SESSION['login_user'])){
+		header('Location: /');
+	}
 	
 	include $_SERVER['DOCUMENT_ROOT'].'/include/connect.inc.php';
 

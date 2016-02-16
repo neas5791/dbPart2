@@ -1,6 +1,7 @@
 $('document').ready(
 	function() {
-		//$('#login').hide();
+		// hide the login message
+		$('.message').hide();
 		// Add smartmenu to navigation bar
 		$('.sm').smartmenus({
 		    showFunction: function($ul, complete) {
@@ -130,12 +131,29 @@ $('document').ready(
 		$('#open').click(
 			function (event) {
         event.preventDefault();
-				if ($('#login-form').is(':hidden')) {
+				
+				// if logged in do a logout
+				if ($(this).hasClass('logout')) {
+          $.get('part/part.php', 'action=logout');
+					// change the text back to login and remove
+					// logout class. Redirect back to home page
+					$(this).text('Login').removeClass('logout');
+					window.location.replace("http://www.dbPart2.com.au");
+        }
+				// click to show login form
+				else if ($('#login-form').is(':hidden')) {
+					// add slideDown effect show login form
           $('#login-form').slideDown(300);
 					$(this).addClass('close');
         }
+				// click to hide form
 				else {
+					// add slideUp effect hide form
 					$('#login-form').slideUp(300);
+					$('.message').fadeOut('slow',
+						function() {
+							$('.message').empty();
+						});
 					$(this).removeClass('close');
 				}
       });
@@ -146,21 +164,31 @@ $('document').ready(
 				var url = 'include/login.inc.php'
 				var action = $(this).attr('name')+'='+$(this).attr('value') + '&' + $('#login-form').serialize();
 				var button = $(this).attr('name')+'='+$(this).attr('value');
-				console.log(action + ' sent to server ' + button);
 				
-				$.post(url, action,
-					function (data) {
-						console.log(data);
-						//$.each(data,
-						//	function(key,value) {
-						//		console.log(key + " - " + value);
-						//		});
-					});
-				
-				//$('#contents').append('<p> submitted<p>');
-				//alert($('#login').serialize());
+				if ($(this).val() == 'login') {
+					$.post(url, action,
+						function (data) {
+							console.log(data);
+							if (data.success === 'true') {
+								$('#open').text('Logout');
+								$('#login-form').slideUp(300);
+								$('.message').fadeOut('slow',
+									function() {
+										$('.message').empty();
+									});
+								$('#open').removeClass('close');
+								$('#open').addClass('logout');
+							}
+							else {
+								// output error message to login form
+								$('.message').text(data.error).slideDown();
+							}
+						});
+				}
+				else if ($(this).val() == 'logout') {
+					console.log($(this).val());
+				}
 				return false;
 			});
-		
 	}
 ); // end ready

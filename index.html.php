@@ -40,6 +40,7 @@
 					<label for="password">Password: </label>
 					<input type="password" name="password" id="password">
 				</p>
+				<p class="message"></p>
 				<p class="button">
 					<input type="submit" name="action" id="button" value="login" >
 				</p>
