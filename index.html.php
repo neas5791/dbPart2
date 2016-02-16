@@ -31,7 +31,7 @@
 			<div id="footer"></div>
 			<div id="login">
 			<a href="form.html"><p id="open">Login</p></a>
-			<form>
+			<form id='login-form'>
 				<p>
 					<label for="username">Username:</label>
 					<input type="text" name="username" id="username">
@@ -41,7 +41,7 @@
 					<input type="password" name="password" id="password">
 				</p>
 				<p class="button">
-					<input type="submit" name="button" id="button" value="Submit" >
+					<input type="submit" name="action" id="button" value="login" >
 				</p>
 			</form>
 			</div>

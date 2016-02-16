@@ -17,21 +17,12 @@ $('document').ready(
 				console.log('part menu selected');
 				var url = 'part/part.php'
 				var action = { action: 'list' };
-				//$.getJSON( url,
-				//					 action,
-				//					 function (data) {
-				//						 $.each( data,
-				//							 function(key, val) {
-				//								 //console.log(key);
-				//								 //console.log(val);
-				//								 $('#table').append('<p id="' + key + '">' + val.PID + ' ' + val.DESCRIPTION + ' ' + val.IMAGE + ' ' + '</p>');
-				//						 }); // end each
-				//					 }
-				//					); // end getJSON anonymous function
+
 				$.getJSON( 	url,
 										action,
 										part_table_data
-									);
+									); // end getJSON anonymous function
+
 				return false;
 			}); // end click
 		// construct table using JSON data returned from server
@@ -135,20 +126,41 @@ $('document').ready(
 					$overlay.remove();
 				}	
 			});
-		
+		// show login form
 		$('#open').click(
 			function (event) {
         event.preventDefault();
-				if ($('#login form').is(':hidden')) {
-          $('#login form').slideDown(300);
+				if ($('#login-form').is(':hidden')) {
+          $('#login-form').slideDown(300);
 					$(this).addClass('close');
         }
 				else {
-					$('#login form').slideUp(300);
+					$('#login-form').slideUp(300);
 					$(this).removeClass('close');
 				}
-      }
-		)
+      });
+		// login submitt hijack
+		$('.button #button').click(
+			function(event){
+				event.preventDefault();
+				var url = 'include/login.inc.php'
+				var action = $(this).attr('name')+'='+$(this).attr('value') + '&' + $('#login-form').serialize();
+				var button = $(this).attr('name')+'='+$(this).attr('value');
+				console.log(action + ' sent to server ' + button);
+				
+				$.post(url, action,
+					function (data) {
+						console.log(data);
+						//$.each(data,
+						//	function(key,value) {
+						//		console.log(key + " - " + value);
+						//		});
+					});
+				
+				//$('#contents').append('<p> submitted<p>');
+				//alert($('#login').serialize());
+				return false;
+			});
 		
 	}
 ); // end ready
