@@ -1,5 +1,12 @@
 <?php
-//http://www.formget.com/login-form-in-php/
+// http://www.formget.com/login-form-in-php/
+// login object functions return
+//      {
+//          success: (true/false)
+//          error: (message)
+//          isLogged: (true/false)
+//      }
+
 
     session_start(); // start session
     include $_SERVER['DOCUMENT_ROOT'].'/include/log.inc.php';
@@ -38,7 +45,7 @@
                 $res =$s -> fetch(PDO::FETCH_BOTH);
 
                 if ( $res[0] == 1 ) {
-                    $_SESSION['login_user'] = $username; // Initialize Session
+                    $_SESSION['user'] = $username; // Initialize Session
                     append_log($username.' logged in successfully');
                     header('Content-Type: application/json');
                     echo json_encode( array( 'success' => 'true', 'error' => '') );

@@ -16,7 +16,8 @@
 			<!-- include the navigation bar -->
 			<div id="nav"><?php include 'include/navigation.inc.html'; ?></div>
 			<div id="content">
-				<p>Welcome to the Transcrete Production database.<br>Please login to access.</p>
+				<h2>Welcome to the Transcrete Production Database.<br></h2>
+				<p><br>Please <strong>login</strong> to access.</p>
 				<div id="filter"></div>
 				<div id="table">
 					<div id="data-table">

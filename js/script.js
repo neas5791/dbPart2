@@ -11,6 +11,12 @@ $('document').ready(
 		     $ul.slideUp(250, complete); 
 		    }
 		  }); // end smartmenu
+		$('#logout').click(
+			function (event) {
+        event.preventDefault();
+				logout();
+      }
+		);
 		// menu item 'Part' click event
 		$('#part').click(
 			function(event) {
@@ -18,7 +24,8 @@ $('document').ready(
 				console.log('part menu selected');
 				var url = 'part/part.php'
 				var action = { action: 'list' };
-
+				var $p = $('#contents').next('p');
+				$p.fadeOut();
 				$.getJSON( 	url,
 										action,
 										part_table_data
@@ -134,11 +141,12 @@ $('document').ready(
 				
 				// if logged in do a logout
 				if ($(this).hasClass('logout')) {
-          $.get('part/part.php', 'action=logout');
-					// change the text back to login and remove
-					// logout class. Redirect back to home page
-					$(this).text('Login').removeClass('logout');
-					window.location.replace("http://www.dbPart2.com.au");
+					logout();
+//          $.get('part/part.php', 'action=logout');
+//					// change the text back to login and remove
+//					// logout class. Redirect back to home page
+//					$(this).text('Login').removeClass('logout');
+//					window.location.replace("http://www.dbPart2.com.au");
         }
 				// click to show login form
 				else if ($('#login-form').is(':hidden')) {
@@ -190,5 +198,13 @@ $('document').ready(
 				}
 				return false;
 			});
+	var logout =
+		function () {
+      $.get('part/part.php', 'action=logout');
+					// change the text back to login and remove
+					// logout class. Redirect back to home page
+					$('#login').children('p').text('Login').removeClass('logout');
+					window.location.replace("http://www.dbPart2.com.au");
+    }
 	}
 ); // end ready

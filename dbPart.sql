@@ -72,16 +72,16 @@ CREATE TABLE tbCatergory (
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB;
 
 CREATE TABLE tbUser (
-    username    VARCHAR(255) NOT NULL PRIMARY KEY,
-    password    CHAR(32) NOT NULL,
-		fname				VARCHAR(50) NOT NULL,
-		lname				VARCHAR(50) NOT NULL,
-		secret_q		VARHCAR(255),
-		secret_a		VARCHAR(255),
-    email       varchar(255)
+    username        VARCHAR(255) NOT NULL PRIMARY KEY,
+    password        CHAR(32) NOT NULL,
+		fname	    VARCHAR(50) NOT NULL,
+		lname	    VARCHAR(50) NOT NULL,
+		secret_q	VARCHAR(255),
+		secret_a	VARCHAR(255),
+        email           varchar(255)
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB;
 
-INSERT INTO tbUser (username, password, fname, lname, email) VALUES ('neas', md5(CONCAT('password', 'mickey mouse')),'Sean', "Matkovich', 'neas@transcrete.com');
+INSERT INTO tbUser (username, password, fname, lname, email) VALUES ('neas', md5(CONCAT('password', 'mickey mouse')),'Sean', 'Matkovich', 'neas@transcrete.com');
 
 -- #Fill Table with DATA
 INSERT into tbType (type, descr) VALUES ('RAW', 'Raw material');
@@ -149,9 +149,9 @@ INSERT INTO tbSupplier SET company = 'PRINCE';
 -- (1, 300002, '35T-301'),
 -- (6, 300003, 'DECK SIDE SHEET');
 	
--- INSERT INTO tbDrawing (partid, drawing_number, rev) 
--- VALUES 
--- (300002, '35T-301', 'A'),
--- (300003, 'T0055', 'B');
+ INSERT INTO tbDrawing (partid, drawing_number, rev) 
+ VALUES 
+ (300002, '35T-301', 'A'),
+ (300003, 'T0055', 'B');
 
 -- **** **** **** **** **** **** **** **** **** **** **** ****
