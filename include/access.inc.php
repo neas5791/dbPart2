@@ -1,117 +1,123 @@
 <?php
+  
+  
+  include $_SERVER['DOCUMENT_ROOT'].'/include/log.inc.php';
 
-function userIsLoggedIn()
-{
-  if (isset($_POST['action']) and $_POST['action'] == 'login')
-  {
-    if (!isset($_POST['email']) or $_POST['email'] == '' or
-      !isset($_POST['password']) or $_POST['password'] == '')
-    {
-      $GLOBALS['loginError'] = 'Please fill in both fields';
-      return FALSE;
+  // action = login
+  // login user with $_POST['username'] & $_POST['password'] information
+  // sets $_SESSION variable ['user']
+  // return JSON array object { loggedin, error, firstname }
+  if (isset($_POST['action']) && $_POST['action'] == 'login' ){
+    // checks current session status
+    if (!status()){
+
+      if (empty($_POST['username']) || empty($_POST['password'])) {
+              $login_error = "Username or Password is invalid";
+              append_log($login_error);
+              header('Content-Type: application/json');
+              echo json_encode( array( 'success' => 'false', 'error' => $login_error) );
+          }
+          else {
+              // Define $username and $password
+              $username = $_POST['username'];
+              $password = $_POST['password'];
+                         
+              include $_SERVER['DOCUMENT_ROOT'].'/include/connect.inc.php';
+              
+              // Protect from mySQL injection for security
+              $username = stripcslashes($username);
+              $password = stripcslashes($password);
+              
+              // start session
+              session_start();
+              try {
+                  // Open database connection
+                  $pdo = dbConnect();
+                  $sql = 'SELECT COUNT(*) AS "count" FROM tbUser
+                          WHERE username = :username
+                          AND password = MD5(CONCAT(:password,"mickey mouse"))';
+                  $s = $pdo -> prepare($sql);
+                  $s -> bindParam(':password', $password, PDO::PARAM_STR);
+                  $s -> bindParam(':username', $username);
+                  $s -> execute();
+  
+                  $res =$s -> fetch(PDO::FETCH_BOTH);
+  
+                  if ( $res[0] == 1 ) {
+                      $_SESSION['user'] = $username; // Initialize Session
+                      append_log($username.' logged in successfully');
+                      header('Content-Type: application/json');
+                      echo json_encode( array( 'success' => 'true', 'error' => '') );
+                  }
+                  else {
+                      $login_error = "Username or Password is invalid";
+                      header('Content-Type: application/json');
+                      echo json_encode( array ('success' => 'false', 'error' => $login_error) );
+                  }
+              }
+              catch (PDOException $e) {
+                header('Content-Type: application/json');
+                echo json_encode( array( 'success' => 'false', 'error' => $e->getMessage()) );
+              }
+          }
     }
+  }
 
-    $password = md5($_POST['password'] . 'ijdb');
+  // action = logout
+  // log current session user out clear $_SESSION array and destroy
+  if (isset($_POST['action']) && $_POST['action'] == 'logout' ) {
+    
+  }
 
-    if (databaseContainsAuthor($_POST['email'], $password))
-    {
-      session_start();
-      $_SESSION['loggedIn'] = TRUE;
-      $_SESSION['email'] = $_POST['email'];
-      $_SESSION['password'] = $password;
-      return TRUE;
+  // action = status
+  // return true if $_SESSION user is currently logged in
+  // returns false is no $_SESSION information is available
+  if (isset($_GET['action']) && $_GET['action'] == 'status' ) {
+    if (status()) {
+      echo json_encode( array('loggedin'=>'true', 'error'=>'', 'firstname'=>$_SESSION['user']) );
     }
-    else
-    {
-      session_start();
-      unset($_SESSION['loggedIn']);
-      unset($_SESSION['email']);
-      unset($_SESSION['password']);
-      $GLOBALS['loginError'] =
-          'The specified email address or password was incorrect.';
-      return FALSE;
+    else {
+      echo json_encode( array('loggedin'=>'false', 'error'=>'No active session', 'firstname'=>'') );
     }
   }
-
-  if (isset($_POST['action']) and $_POST['action'] == 'logout')
-  {
-    session_start();
-    unset($_SESSION['loggedIn']);
-    unset($_SESSION['email']);
-    unset($_SESSION['password']);
-    header('Location: ' . $_POST['goto']);
-    exit();
+  
+  // returns true if session is active
+  function status() {
+    // PHP_SESSION_ACTIVE if sessions are enabled, and one exists.  
+    if (session_status() == PHP_SESSION_ACTIVE) {
+      return true;
+    }
+    // PHP_SESSION_DISABLED if sessions are disabled.
+    // PHP_SESSION_NONE if sessions are enabled, but none exists.
+    else {
+      return false;
+    }
   }
+  
+?>
 
-  session_start();
-  if (isset($_SESSION['loggedIn']))
-  {
-    return databaseContainsAuthor($_SESSION['email'], $_SESSION['password']);
-  }
-}
-
-function databaseContainsAuthor($email, $password)
-{
-  include 'db.inc.php';
-
-  try
-  {
-    $sql = 'SELECT COUNT(*) FROM author
-        WHERE email = :email AND password = :password';
-    $s = $pdo->prepare($sql);
-    $s->bindValue(':email', $email);
-    $s->bindValue(':password', $password);
-    $s->execute();
-  }
-  catch (PDOException $e)
-  {
-    $error = 'Error searching for author.';
-    include 'error.html.php';
-    exit();
-  }
-
-  $row = $s->fetch();
-
-  if ($row[0] > 0)
-  {
-    return TRUE;
-  }
-  else
-  {
-    return FALSE;
-  }
-}
-
-function userHasRole($role)
-{
-  include 'db.inc.php';
-
-  try
-  {
-    $sql = "SELECT COUNT(*) FROM author
-        INNER JOIN authorrole ON author.id = authorid
-        INNER JOIN role ON roleid = role.id
-        WHERE email = :email AND role.id = :roleId";
-    $s = $pdo->prepare($sql);
-    $s->bindValue(':email', $_SESSION['email']);
-    $s->bindValue(':roleId', $role);
-    $s->execute();
-  }
-  catch (PDOException $e)
-  {
-    $error = 'Error searching for author roles.';
-    include 'error.html.php';
-    exit();
-  }
-
-  $row = $s->fetch();
-
-  if ($row[0] > 0)
-  {
-    return TRUE;
-  }
-  else
-  {
-    return FALSE;
-  }
-}
+  <!--class Access {
+    
+    private $loggedIn = false;
+    private $firstName;
+    private $error;
+    
+    public function _construct($username, $password){
+      if ($loggedIn == true)
+        logout();
+        login($username, $password);
+    }
+    
+    public function error(){
+      echo $error;  
+    }
+    
+    public function login($username, $password) {
+      
+    }
+    
+    public function logout() {
+      
+    }
+  
+  }-->

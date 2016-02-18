@@ -8,6 +8,7 @@
 		<link rel="stylesheet" href="smartmenus/sm-simple.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="smartmenus/jquery.smartmenus.min.js"></script>
+		<!--<script type="text/javascript" src="include/functions.js"></script>-->
 		<script type="text/javascript" src="js/script.js"></script>
 
 	</head>

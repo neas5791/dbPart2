@@ -1,91 +1,3 @@
-$('document').ready(
-	function() {
-		// get functions library
-		$.getScript('include/functions.js');
-		// Insert home page into content div
-		$('#content').prepend($('<div id="home">').load('include/home.inc.html'));
-		// hide the login message
-		$('.message').hide();
-		// Add smartmenu to navigation bar
-		$('.sm').smartmenus({
-		    showFunction: function($ul, complete) {
-		      $ul.slideDown(250, complete);
-		    },
-		    hideFunction: function($ul, complete) {
-		     $ul.slideUp(250, complete); 
-		    }
-		  }); // end smartmenu
-		// logout click
-		$('#logout').click(
-			function (event) {
-        event.preventDefault();
-				console.log('menu logout pressed');
-				logout();
-      });
-		// menu item 'Part' click event
-		$('#part').click(
-			function(event) {
-				event.preventDefault();
-				console.log('part menu selected');
-				var url = 'part/part.php'
-				var action = { action: 'list' };
-
-				$.getJSON( 	url,
-										action,
-										part_table_data
-									); // end getJSON anonymous function
-
-				return false;
-			}); // end click
-		// remove any image that is opened by clicking the background
-		$('html').on('click',
-			function(event) {
-				var $overlay = $('#overlay');
-				if (event.target == $overlay.get(0)) {
-					$overlay.remove();
-				}	
-			});
-		// show login form
-		$('#open').click(
-			function (event) {
-				console.log('#open clicked');
-        event.preventDefault();
-				console.log($(this).hasClass('logout'));
-				// if logged in do a logout
-				if ($(this).hasClass('logout')) {
-					console.log('go to logout function!');
-					logout();
-//          $.get('part/part.php', 'action=logout');
-//					// change the text back to login and remove
-//					// logout class. Redirect back to home page
-//					$(this).text('Login').removeClass('logout');
-//					window.location.replace("http://www.dbPart2.com.au");
-        }
-				// click to show login form
-				else if ($('#login-form').is(':hidden')) {
-					// add slideDown effect show login form
-          $('#login-form').slideDown(300);
-					$(this).addClass('close');
-        }
-				// click to hide form
-				else {
-					// add slideUp effect hide form
-					$('#login-form').slideUp(300);
-					$('.message').fadeOut('slow',
-						function() {
-							$('.message').empty();
-						});
-					$(this).removeClass('close');
-				}
-      });
-		// login submitt hijack
-		$('.button #button').click(
-			function(event) {
-				login($(this), event);
-				return false;
-			});
-		
-/*	*****************************************************************************************************************	*/
   // construct table using JSON data returned from server
   var part_table_data =
     function (data) {
@@ -228,9 +140,9 @@ $('document').ready(
 			}
 		};
   // set page based on login status
-	var userstatus =
+	var status =
 		function () {
-      $.getJSON('include/access.inc.php', 'action=status',
+      $.getjson('include/access.inc.php', 'action=status',
         function(data) {
           if (data['loggedin'] == 'true') {
             $('#open').text('Logout '+ data['firstname']);
@@ -239,8 +151,3 @@ $('document').ready(
           }
         });
     };    
-userstatus();
-/* ****************************************************************************************************************** */
-		
-//status();
-}); // end ready
