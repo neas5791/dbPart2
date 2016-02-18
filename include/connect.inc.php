@@ -22,7 +22,7 @@
 			echo $error;
 		}
 		//echo 'database connected';
-		append_log('Database connection successful');
+		//append_log('Database connection successful');
 		return $pdo;
 	}
 ?>

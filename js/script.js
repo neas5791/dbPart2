@@ -1,5 +1,8 @@
 $('document').ready(
 	function() {
+		// shows home page template
+		var $content = $.load('include/home.inc.html #welcome');
+		$('#content').prepend($content);
 		// hide the login message
 		$('.message').hide();
 		// Add smartmenu to navigation bar
@@ -14,6 +17,7 @@ $('document').ready(
 		$('#logout').click(
 			function (event) {
         event.preventDefault();
+				console.log('menu logout pressed');
 				logout();
       }
 		);
@@ -24,8 +28,8 @@ $('document').ready(
 				console.log('part menu selected');
 				var url = 'part/part.php'
 				var action = { action: 'list' };
-				var $p = $('#contents').next('p');
-				$p.fadeOut();
+				var $p = $('#contents').children('p');
+				$p.css('font-color','red');
 				$.getJSON( 	url,
 										action,
 										part_table_data
@@ -137,10 +141,12 @@ $('document').ready(
 		// show login form
 		$('#open').click(
 			function (event) {
+				console.log('#open clicked');
         event.preventDefault();
-				
+				console.log($(this).hasClass('logout'));
 				// if logged in do a logout
 				if ($(this).hasClass('logout')) {
+					console.log('go to logout function!');
 					logout();
 //          $.get('part/part.php', 'action=logout');
 //					// change the text back to login and remove
@@ -168,12 +174,59 @@ $('document').ready(
 		// login submitt hijack
 		$('.button #button').click(
 			function(event){
-				event.preventDefault();
+				//console.log($(this));
+				$object = $(this);
+				$event = event;
+				login($object, $event);
+				//event.preventDefault();
+				//var url = 'include/login.inc.php'
+				//var action = $(this).attr('name')+'='+$(this).attr('value') + '&' + $('#login-form').serialize();
+				//var button = $(this).attr('name')+'='+$(this).attr('value');
+				//
+				//if ($(this).val() == 'login') {
+				//	$.post(url, action,
+				//		function (data) {
+				//			console.log(data);
+				//			if (data.success === 'true') {
+				//				$('#open').text('Logout');
+				//				$('#login-form').slideUp(300);
+				//				$('.message').fadeOut('slow',
+				//					function() {
+				//						$('.message').empty();
+				//					});
+				//				$('#open').removeClass('close');
+				//				$('#open').addClass('logout');
+				//			}
+				//			else {
+				//				// output error message to login form
+				//				$('.message').text(data.error).slideDown();
+				//			}
+				//		});
+				//}
+				//else if ($(this).val() == 'logout') {
+				//	console.log($(this).val());
+				//}
+				return false;
+			});
+	var logout =
+		function () {
+			console.log('logout function');
+      $.get('include/login.inc.php', 'action=logout');
+			// change the text back to login and remove
+			// logout class. AJAX content window with home template html
+			$('#open').text('Login').removeClass('logout');
+			$('#content').load('include/home.inc.html #welcome');
+    };
+	// execute the login process
+	// changes state
+	var login =
+		function ($this, $event) {
+			//$event.preventDefault();
 				var url = 'include/login.inc.php'
-				var action = $(this).attr('name')+'='+$(this).attr('value') + '&' + $('#login-form').serialize();
-				var button = $(this).attr('name')+'='+$(this).attr('value');
+				var action = $this.attr('name')+'='+$this.attr('value') + '&' + $('#login-form').serialize();
+				var button = $this.attr('name')+'='+$this.attr('value');
 				
-				if ($(this).val() == 'login') {
+				if ($this.val() == 'login') {
 					$.post(url, action,
 						function (data) {
 							console.log(data);
@@ -193,18 +246,11 @@ $('document').ready(
 							}
 						});
 				}
-				else if ($(this).val() == 'logout') {
-					console.log($(this).val());
+				else if ($this.val() == 'logout') {
+					console.log($this.val());
 				}
-				return false;
-			});
-	var logout =
-		function () {
-      $.get('part/part.php', 'action=logout');
-					// change the text back to login and remove
-					// logout class. Redirect back to home page
-					$('#login').children('p').text('Login').removeClass('logout');
-					window.location.replace("http://www.dbPart2.com.au");
-    }
+		};
+		
 	}
+	
 ); // end ready

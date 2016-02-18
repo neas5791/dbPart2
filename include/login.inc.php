@@ -12,7 +12,7 @@
     include $_SERVER['DOCUMENT_ROOT'].'/include/log.inc.php';
     $login_error=''; // somewhere to keep our error messages
     
-    if (isset($_POST['action'])){
+    if (isset($_POST['action']) && $_POST['action'] == 'login'){
         
         if (empty($_POST['username']) || empty($_POST['password'])) {
             $login_error = "Username or Password is invalid";
@@ -61,5 +61,11 @@
               echo json_encode( array( 'success' => 'false', 'error' => $e->getMessage()) );
             }
         }
+    }
+    else if (isset($_GET['action']) && $_GET['action'] == 'logout'){
+        append_log($_SESSION['user'].' has logged out');
+        $_SESSION = array();
+        session_destroy();
+        echo json_encode(array('success'=> 'true', 'error'=>''));
     }
 ?>
