@@ -5,30 +5,29 @@
 	
 	session_start();
 	include $_SERVER['DOCUMENT_ROOT'].'/include/log.inc.php';
-	
-	//if( isset( $_GET['action'] ) && $_GET['action']=='logout' ) {
-	//	session_destroy();
-	//	//echo json_encode(array('location'=>'home'));
-	//}
-		
-	//print_r( $_SESSION );
-	if(!isset($_SESSION['user'])){
+
+// check that session is active otherwise redirect to home page
+	if( !isset($_SESSION['id']) ) {
 		header('Location: /');
+		exit();
 	}
 	
 	include $_SERVER['DOCUMENT_ROOT'].'/include/connect.inc.php';
 
 	if( isset( $_GET['action'] ) && $_GET['action'] == 'list' ) {
-		
 		list_part();
 	}
 
-	/*
-		List of active parts from database table.
-		**mySql  
-			SELECT * FROM tbPart WHERE ACTIVE
-	*/
+/*
+ * List of active parts from database table.
+ * **mySql
+ *
+ * 		SELECT * FROM tbPart WHERE ACTIVE
+ * 
+*/
 	function list_part() {
+		header('Content-Type: application/json');
+		
 		// get database connection object
 		$pdo = dbConnect();
 		try {
@@ -50,7 +49,7 @@
 						$e->getMessage();
 			echo $error;
 		}
-		header('Content-Type: application/json');
+		// send $results array
 		echo json_encode($results);
 	}
 

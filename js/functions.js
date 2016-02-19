@@ -1,3 +1,4 @@
+	var init = function () {};
   // construct table using JSON data returned from server
   var part_table_data =
     function (data) {
@@ -7,8 +8,8 @@
       // add new data contents to table
       $.each( data,
         function(key, value) {
-          console.log(key);
-          console.log(value);
+          //console.log(key);
+          //console.log(value);
           var row = '<tr class="clickable-row" value="'+ value.PID +'" data-href="/img/'+ value.PID +'.jpg" >';
           row += '<td class="edit"><input type="radio" value="' + value.PID + '" name="edit"></input></td>';
           row += '<td>' + value.PID + '</td>';
@@ -24,6 +25,9 @@
   // construct table header (columns) based on name of JSON keys
   var part_table_header =
     function (data) {
+			if (data.length == 0) {
+				return false;
+			}
       var keys =[];
       var obj = data[0];
       // extract all of the objects keys
@@ -60,6 +64,7 @@
     function () {
       $('.img-click').click(
         function (event) {
+					console.log('.img-click tr clicked');
           var $tr_parent = $(this).parent('tr');
           var value = $tr_parent.attr('value'); // works gives me the value only
       
@@ -78,7 +83,7 @@
   // display image in floating div (foreground)
   var displayImage =
     function () {
-      console.log('running display image');
+      //console.log('running display image');
       // add overlay
       $('<div id="overlay"><div id="photo"></div></div>').prependTo('body');
       // select photo div
@@ -94,57 +99,58 @@
 	// logout function
 	var logout =
 		function () {
-			console.log('logout function');
-      $.get('include/login.inc.php', 'action=logout');
-			// change the text back to login and remove
-			// logout class. AJAX content window with home template html
-			$('#open').text('Login').removeClass('logout');
-			// Insert home page into content div
-			
-			$('#content')
-				.empty()
-				.prepend(
-					$('<div id="home">').load('include/home.inc.html')
-				);
+			var url = ('include/access.inc.php');
+			var action = 'action=logout';
+			$.post(url, action,
+				function (data) {
+					//update_page(data);
+					console.log(data);
+					// change the text back to login and remove
+					// logout class. AJAX content window with home template html
+					$('#open').text('Login').removeClass('logout');
+					// Insert home page into content div
+					
+					$('#content')
+						.empty()
+						.prepend(
+							$('<div id="home">').load('include/home.inc.html')
+						);
+				});
+      //$.get('include/access.inc.php', 'action=logout');
     };
 	// execute the login process
 	// changes state
 	var login =
-		function ($this, $event) {
-			var url = 'include/login.inc.php'
-			var action = $this.attr('name')+'='+$this.attr('value') + '&' + $('#login-form').serialize();
-			var button = $this.attr('name')+'='+$this.attr('value');
+		function () {
+			var url = 'include/access.inc.php'
+			var action = 'action=login&' + $('#login-form').serialize();
 			
-			if ($this.val() == 'login') {
-				$.post(url, action,
-					function (data) {
-						console.log(data);
-						if (data.success === 'true') {
-							$('#open').text('Logout');
-							$('#login-form').slideUp(300);
-							$('.message').fadeOut('slow',
-								function() {
-									$('.message').empty();
-								});
-							$('#open').removeClass('close');
-							$('#open').addClass('logout');
-						}
-						else {
-							// output error message to login form
-							$('.message').text(data.error).slideDown();
-						}
-					});
-			}
-			else if ($this.val() == 'logout') {
-				console.log($this.val());
-			}
+			$.post( url, action,
+        function (data) {
+					// check login resulted successfully
+					if ( data.authorized === true ) {
+            $('#open').text('Logout, ').append('<strong>' + data.name + '</strong>');
+            $('#login-form').slideUp(300);
+            $('.message').fadeOut('slow',
+              function() {
+                $('.message').empty();
+              });
+            $('#open').removeClass('close');
+            $('#open').addClass('logout');
+          }
+          else {
+            // output error message to login form
+            $('.message').text(data.message).slideDown();
+          }
+        });
 		};
-  // set page based on login status
+	// checks status of current session
+	// and sets out page stae
 	var status =
 		function () {
       $.getjson('include/access.inc.php', 'action=status',
         function(data) {
-          if (data['loggedin'] == 'true') {
+          if (data['authorized'] == 'true') {
             $('#open').text('Logout '+ data['firstname']);
             $('#open').removeClass('close');
             $('#open').addClass('logout');

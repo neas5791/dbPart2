@@ -19,15 +19,15 @@ CREATE TABLE tbSupplier (
 	contact 	VARCHAR(255), 
 	address1 	VARCHAR(255),
 	address2 	VARCHAR(255),
-	city 		VARCHAR(255),
+	city 			VARCHAR(255),
 	state 		VARCHAR(255),
 	country		VARCHAR(255),
 	postcode 	VARCHAR(255),
 	phone 		VARCHAR(30),
 	mobile		VARCHAR(30),
-	fax 		VARCHAR(30),
+	fax 			VARCHAR(30),
 	email 		VARCHAR(255),
-	www 		VARCHAR(255),
+	www 			VARCHAR(255),
 	active		BOOLEAN DEFAULT TRUE
 ) DEFAULT CHARSET=utf8 ENGINE=InnoDB;
 -- tbPart
