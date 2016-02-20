@@ -79,10 +79,7 @@ $('document').ready(
 			});
 		
 		$.getScript('js/testing.js');
-		$('#test').click(
-			function(event){
-				test_access_inc_php(event);
-			});
+
 
 		var update_page =
 			function ($html){

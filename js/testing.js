@@ -1,3 +1,7 @@
+//$('#test').click(
+//	function(event){
+//		test_access_inc_php(event);
+//	});
 var test_access_inc_php =
   function(event){
 		event.preventDefault();
