@@ -44,7 +44,7 @@
 				</p>
 				<p class="message"></p>
 				<p class="button">
-					<input type="submit" name="action" id="button" value="login" >
+					<input type="submit" name="action" id="login-button" value="login" >
 				</p>
 			</form>
 			</div>

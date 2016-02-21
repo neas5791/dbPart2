@@ -72,7 +72,7 @@ $('document').ready(
 				}
       });
 		// login submitt hijack
-		$('.button #button').click(
+		$('.button #login-button').click(
 			function(event) {
 				event.preventDefault();
 				login();

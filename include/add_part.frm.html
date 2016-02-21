@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="../css/style.css">
+<div id="add_part">
+  <form id="add_part_frm">
+    <p>
+      <label for="pid">PID:</label>
+      <input type="text" name="pid" id="pid" value="New Part ID" disabled>
+    </p>
+    <p>
+      <label for="description">Description:</label>
+      <input type="text" name="description" id="description">
+    </p>
+    <p>
+      <label for="upload">Image:
+			<input type="file" name="upload"></input></label>
+			<input type="hidden" name="MAX_FILE_SIZE" value="1000000">
+      <input type="hidden" name="action" value="upload">
+    </p>
+    <p class="button">
+      <input type="button" name="action" id="add_part_button" value="Add">
+    </p>
+  </form>
+</div>

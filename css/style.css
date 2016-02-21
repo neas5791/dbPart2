@@ -102,7 +102,7 @@ td, th {
 	width: 140px;	
 }
 #login .button {
-	text-align: right;	
+	text-align: right;
 	padding-right: 15px;
 }
 #login .message{
@@ -114,4 +114,45 @@ td, th {
 	margin: 0 15px 0 0;
 	display: inline-block;
 	/*padding-left: 15px; */
+}
+
+#add_part {
+	width: 450px;
+	position: absolute;
+	left: 9px;
+	/*top: 9px;*/
+	z-index: 25;
+	/*background-color: rgb(27,45,94);*/
+	background-color: rgb(221,221,221);
+	border-radius: 0 0 5px 5px;
+}
+
+#add_part a {
+	text-decoration: none;
+}
+
+#add_part form {
+	padding: 10px 10px 0 10px;
+	/*display: none;*/
+}
+
+#add_part label {
+	font-size: .75em;
+	color: black;
+	font-weight: bold;
+	width: 70px;
+	text-align:right;
+	margin: 0 15px 0 0;
+	display: inline-block;
+}
+
+#add_part input[type="text"], #add_part input[type="file"] {
+	font-size: 14px;
+	width: 320px;
+	display: inline;
+}
+
+#add_part .button {
+	text-align: left;
+	padding-right: 15px;
 }
