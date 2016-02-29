@@ -78,13 +78,40 @@ $('document').ready(
 				login();
 			});
 		
-		$.getScript('js/testing.js');
-
-
 		var update_page =
-			function ($html){
+			function (html_input){
 				$('#content').empty();
-				$('#content').prepend($html);
+				$('#content').html(html_input);
 			};
+
+		$.getScript('js/testing.js');
+		$('#addPart').click(
+			function(event) {
+				test_add_part(event);
+				});
+		var init =
+  function () {
+		var url = 'include/access.inc.php';
+		var action = 'action=status';
+		var _status = false;
+		var _name;
+		$.post(url, action,
+			function (data) {
+				console.log(data.authorized);
+				_status = data.authorized;
+			});
+		console.log('_status=');console.log(_status);
+		if (_status) {
+			$('#open').text('Logout, ').append('<strong>' + data.name + '</strong>');
+      $('#login-form').slideUp(300);
+			$('.message').fadeOut('slow',
+				function() {
+					$('.message').empty();
+				});
+			$('#open').removeClass('close');
+			$('#open').addClass('logout');
+		}
+	};
+		init();
 
 }); // end ready

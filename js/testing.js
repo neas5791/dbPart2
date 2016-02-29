@@ -2,6 +2,12 @@
 //	function(event){
 //		test_access_inc_php(event);
 //	});
+var test_add_part =
+  function (event){
+		event.preventDefault();
+		//$html = $('<div id="addPartDiv>')
+		update_page('<p>add part has been called</p>');
+		};
 var test_access_inc_php =
   function(event){
 		event.preventDefault();
@@ -50,3 +56,27 @@ $('#login_status').click(
 				console.log(data);
 			});
 	});
+
+var init =
+  function () {
+		var url = 'include/access.inc.php';
+		var action = 'action=status';
+		var _status;
+		var _name;
+		$.post(url, action,
+			function (data) {
+				console.log(data);
+				_status = data.authorized;
+			});
+
+		if (_status) {
+			$('#open').text('Logout, ').append('<strong>' + data.name + '</strong>');
+      $('#login-form').slideUp(300);
+			$('.message').fadeOut('slow',
+				function() {
+					$('.message').empty();
+				});
+			$('#open').removeClass('close');
+			$('#open').addClass('logout');
+		}
+	};
