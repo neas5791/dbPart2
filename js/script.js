@@ -77,6 +77,14 @@ $('document').ready(
 				event.preventDefault();
 				login();
 			});
+		// add part menu click
+		$('#addPart').click(
+			function(event){
+				event.preventDefault();
+				console.log('#addPart clicked');
+				var url = 'include/add_part.frm.html';
+				$('#content').append($('<div id="add_part_frm">').load(url, '#add_part'));
+			});
 		
 		var update_page =
 			function (html_input){
@@ -84,7 +92,7 @@ $('document').ready(
 				$('#content').html(html_input);
 			};
 
-		$.getScript('js/testing.js');
+		//$.getScript('js/testing.js');
 		$('#addPart').click(
 			function(event) {
 				test_add_part(event);
